@@ -132,7 +132,9 @@
         const store = createStore(app)
 
         store.subscribe(()=>{
-            console.log('the new state is : ', store.getState())
+            const {goals, todos} = store.getState()
+            goals.forEach(addGoalToDom)
+            todos.forEach(addTodoToDom)
         })
 
         // store.dispatch({
@@ -154,6 +156,8 @@
         const unsubscripe = store.subscribe(()=>{
             console.log('store changed');
         })
+
+        //DOM CODE
         function addTodo () {
             const input = document.getElementById('todo')
             const name = input.value
@@ -178,6 +182,22 @@
         }
         document.getElementById('todoBtn').addEventListener('click', addTodo)
         document.getElementById('goalBtn').addEventListener('click',addGoal)
+        
+        function addTodoToDom (todo) {
+            const node = document.createElement('li');
+            const text = document.createTextNode(todo.name);
+            node.appendChild(text);
+            document.getElementById('todos')
+                .appendChild(node);
+        }
+
+        function addGoalToDom (goal) {
+            const node = document.createElement('li');
+            const text = document.createTextNode(goal.goal);
+            node.appendChild(text);
+            document.getElementById('goals')
+                .appendChild(node);
+        }
     </script>
 </body>
 </html>
