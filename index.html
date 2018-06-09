@@ -115,6 +115,8 @@
             }
         }
 
+
+
         function goals (state = [], action){
             switch(action.type){
                 case 'ADD_GOAL' :
@@ -124,6 +126,22 @@
                 default :
                 return state;
             }
+        }
+        function checkAndDispatch (store, action) {
+            if(
+                action.type === ADD_TODO && 
+                action.todo.name.toLowerCase().includes('bitcoin')
+            ) {
+                return alert('nope. thats a bad idea!');
+            }
+            if(
+                action.type === ADD_GOAL && 
+                action.goal.goal.toLowerCase().includes('bitcoin')
+            ) {
+                return alert('nope. thats a bad idea!');
+            }
+
+            return store.dispatch(action)
         }
 
         // // we no longer need this custom combine reducers function as redux provides that
@@ -174,7 +192,7 @@
             const name = input.value
             input.value = ''
 
-            store.dispatch(addTodoAction({
+            checkAndDispatch(store,addTodoAction({
                 name,
                 complete: false,
                 id: generateId()
@@ -186,7 +204,7 @@
             const goal = input.value;
             input.value = '';
 
-            store.dispatch(addGoalAction({
+            checkAndDispatch(store,addGoalAction({
                 goal,
                 id: generateId()
             }))
